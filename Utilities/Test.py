@@ -5,12 +5,12 @@
 """
 import time
 
-from Content.Python.DataHelper import saveData
-from Content.Python.FileMerger import mergeFiles
-from Content.Python.HardwareGrabber import grabHardware
-from Content.Python.MetadataGrabber import grabPostRenderMeta, grabPreRenderMeta
-from Content.Python.RenderHelper import render
-from Content.Python.SettingsGrabber import grabSettings
+from Content.Python.Plugin.DataHelper import saveData
+from Content.Python.Utilities.FileMerger import mergeFiles
+from Content.Python.Plugin.HardwareGrabber import grabHardware
+from Content.Python.Plugin.MetadataGrabber import grabPostRenderMeta, grabPreRenderMeta
+from Content.Python.Plugin.RenderHelper import render
+from Content.Python.Plugin.SettingsGrabber import grabSettings
 
 
 def full_test():

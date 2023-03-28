@@ -5,11 +5,11 @@
 """
 import unreal
 
-from DataHelper import saveData
+from Content.Python.Plugin.DataHelper import saveData
 from RenderHelper import render
 from MetadataGrabber import grabPreRenderMeta, grabPostRenderMeta
 from SettingsGrabber import grabSettings
-from HardwareGrabber import grabHardware
+from Content.Python.Plugin.HardwareGrabber import grabHardware
 
 
 @unreal.uclass()
