@@ -1,4 +1,4 @@
-def grabSettings():
+def grabSettings(video):
     resolution = "1980x1080"
     spatial_samples = 4
     temporal_samples = 4

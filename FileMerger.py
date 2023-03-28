@@ -1,9 +1,17 @@
+"""
+    Copyright @Algorithm.ie.
+
+    :author: vitor@bu.edu.
+"""
 import csv
 import os
 import time
 
 import numpy
 
+"""
+    Header for the Master Data File.
+"""
 HEADER = ["shotName", "levelName", "action", "renderLocation", "projectLocation",
           "startTime", "endTime", "totalTime", "totalFrames", "avgFrameTime",
           "frameTimeMap", "resolution", "spatial_samples", "temporal_samples", "console_variables",
@@ -11,6 +19,12 @@ HEADER = ["shotName", "levelName", "action", "renderLocation", "projectLocation"
 
 
 def mergeFiles(folder="./data/"):
+    """
+    Helper Function to Merge all existing Data Files into a Master File.
+
+    :param folder: Data Folder to read from/write to.
+    :return: None.
+    """
     fileName = "Master_File-" + time.ctime(time.time()).replace(" ", "_").replace(":", "-")
     data = extractAllFiles(folder)
     if data == 1:
@@ -19,7 +33,14 @@ def mergeFiles(folder="./data/"):
 
 
 def writeFile(folder, fileName, data):
-    header = HEADER
+    """
+    Helper Function to Write the data to a Master File.
+
+    :param folder: Data Folder to write to.
+    :param fileName: Name for the Master Data File.
+    :param data: Data to write to the File.
+    :return: None.
+    """
     upperPath = os.path.join("c:\\", os.getcwd() + folder + "master/")
 
     if not os.path.exists(upperPath):
@@ -33,6 +54,12 @@ def writeFile(folder, fileName, data):
 
 
 def extractAllFiles(folder):
+    """
+    Helper Function to Extract all Data from the csv Files in a Folder.
+
+    :param folder: Data Folder to read from.
+    :return: Read Data Array.
+    """
     directory = os.path.join("c:\\", os.getcwd() + folder)
     finalData = []
 
@@ -51,6 +78,12 @@ def extractAllFiles(folder):
 
 
 def checkFile(file):
+    """
+    Helper Function to verify that a File is a Render Statistics Data File.
+
+    :param file: File to Check.
+    :return: 1 if Valid, 0 if Invalid.
+    """
     lead = file.readline()
     if numpy.array_equiv(lead, HEADER):
         return 1
@@ -59,11 +92,15 @@ def checkFile(file):
 
 
 def extractData(file):
+    """
+    Helper Function to Extract Data from a specific Data File.
+
+    :param file: File to Read From.
+    :return: Data from the File.
+    """
     fileData = []
     reader = csv.reader(file)
     for line in reader:
         fileData.append(line)
 
     return fileData
-
-mergeFiles()

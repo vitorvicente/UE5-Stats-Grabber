@@ -1,7 +1,7 @@
 import time
 
 
-def grabPreRenderMeta():
+def grabPreRenderMeta(video):
     shotName = "Test Shot"
     levelName = "Test Level"
     action = "Test Action"
@@ -19,7 +19,7 @@ def grabPreRenderMeta():
     }
 
 
-def grabPostRenderMeta(startTime):
+def grabPostRenderMeta(video, startTime):
     endTime = time.time()
     totalTime = (startTime - endTime) / 60
     totalFrames = 1000

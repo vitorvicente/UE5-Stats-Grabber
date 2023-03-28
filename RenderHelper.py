@@ -1,2 +1,2 @@
-def render():
+def render(video):
     return 0

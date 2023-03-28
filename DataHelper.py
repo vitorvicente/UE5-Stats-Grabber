@@ -1,8 +1,16 @@
+"""
+    Copyright @Algorithm.ie.
+
+    :author: vitor@bu.edu.
+"""
 import csv
 import os
 import time
 import numpy
 
+"""
+    Checker Patterns to Validate all Metadata.
+"""
 HARDWARE_CHECKER = {"CPU": "String", "GPU": "String", "RAM": "String"}
 SETTINGS_CHECKER = {"resolution": "String",
                     "spatial_samples": "Numerical",
@@ -22,13 +30,22 @@ META_TWO_CHECKER = {"endTime": "Numerical",
                     "frameTimeMap": "NumArray"}
 
 
-def saveData(hardware, settings, metaOne, metaTwo):
+def saveData(hardware, settings, metaOne, metaTwo, dataFolder="./data/"):
+    """
+    Helper Function to save all Render Statistics into a File.
+
+    :param hardware: Hardware Metadata.
+    :param settings: Render Settings Metadata.
+    :param metaOne: Pre-Render Metadata.
+    :param metaTwo: Post-Render Metadata.
+    :param dataFolder: Path to the Data Folder. Defaults to './data/'.
+    :return: None.
+    """
     if checkMap(hardware, HARDWARE_CHECKER) + checkMap(settings, SETTINGS_CHECKER) \
             + checkMap(metaOne, META_ONE_CHECKER) + checkMap(metaTwo, META_TWO_CHECKER) != 0:
-        print(checkMap(metaTwo, META_TWO_CHECKER))
         return 1
 
-    fileName = "./data/" + metaOne["shotName"].replace(" ", "_") + "-" + str(time.ctime(metaTwo["endTime"])) \
+    fileName = dataFolder + metaOne["shotName"].replace(" ", "_") + "-" + str(time.ctime(metaTwo["endTime"])) \
         .replace(" ", "_").replace(":", "-") + ".csv"
     header = []
     row = []
@@ -40,7 +57,7 @@ def saveData(hardware, settings, metaOne, metaTwo):
             else:
                 row.append(value)
 
-    directory = os.path.join("c:\\", os.getcwd() + "./data/")
+    directory = os.path.join("c:\\", os.getcwd() + dataFolder)
 
     if not os.path.exists(directory):
         os.mkdir(directory)
@@ -54,6 +71,13 @@ def saveData(hardware, settings, metaOne, metaTwo):
 
 
 def checkMap(valueMap, checker):
+    """
+    Helper Function to validate the Data in a Map.
+
+    :param valueMap: Map with the Values to Check.
+    :param checker: Checker Pattern to check against.
+    :return: None.
+    """
     if type(valueMap) != dict:
         return 1
     elif len(valueMap) == 0:

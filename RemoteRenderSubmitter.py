@@ -1,3 +1,8 @@
+"""
+    Copyright @Algorithm.ie.
+
+    :author: vitor@bu.edu.
+"""
 import unreal
 
 from DataHelper import saveData
@@ -9,24 +14,43 @@ from HardwareGrabber import grabHardware
 
 @unreal.uclass()
 class MyCustomRemoteRenderSubmitter(unreal.MoviePipelineExecutorBase):
+    """
+        Main implementation of the Remote Render Plugin.
+        Allowing the output of a comprehensive set of render statistics to be printed out after a render.
+    """
 
     @unreal.ufunction(override=True)
     def execute(self, pipeline_queue):
-        unreal.log("Execute!")
-        # Get Hardware
+        """
+        Main Render Execute Function, overrides Default Implementation.
+
+        :param pipeline_queue: Render Pipeline Queue.
+        :return: None.
+        """
+
         hardware = grabHardware()
 
-        # Get Settings
-        settings = grabSettings()
+        for video in pipeline_queue.get_jobs():
+            self.renderVideo(video, hardware)
 
-        # Get Initial Metadata
-        metaOne = grabPreRenderMeta()
+    def renderVideo(self, video, hardware):
+        """
+        Helper Function to Render an individual Video on the Queue and save the statistics related to its Render..
 
-        # Render
-        render()
+        :param video: Video to be rendered.
+        :param hardware: Hardware Metadata for the Machine.
+        :return: None.
+        """
 
-        # Get Final Metadata
-        metaTwo = grabPostRenderMeta()
+        self.set_status_message("Pre-Render Setup")
+        settings = grabSettings(video)
 
-        # Get Data/Send Data
+        metaOne = grabPreRenderMeta(video)
+
+        self.set_status_message("Rendering")
+        render(video)
+
+        self.set_status_message("Post-Render Cleanup")
+        metaTwo = grabPostRenderMeta(video, metaOne.startTime)
+
         saveData(hardware, settings, metaOne, metaTwo)
